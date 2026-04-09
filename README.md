@@ -39,23 +39,16 @@
 🏗️ 系统架构
 
 
-请求流程：
-
-
-plaintext
-用户请求 → 模式路由层(RAG/Agent切换)
-              ↓
-    ┌─────────┴─────────┐
-    ↓                   ↓
-RAG检索引擎         Agent智能体
-    ↓                   ↓
-向量数据库         工具调用引擎
-    ↓                   ↓
-    └─────────┬─────────┘
-              ↓
-        缓存层(LRU Cache)
-              ↓
-       LLM服务(本地/云端)
+mermaid
+flowchart TB
+    A[用户请求] --> B{模式路由}
+    B -->|RAG模式| C[RAG检索引擎]
+    B -->|Agent模式| D[Agent智能体]
+    C --> E[向量数据库]
+    D --> F[工具调用引擎]
+    E --> G[缓存层]
+    F --> G
+    G --> H[LLM服务]
 
 
 
@@ -80,13 +73,20 @@ python main.py
 接口调用示例
 
 
+对话接口
+
+
 bash
-# 对话接口
 curl -X POST "http://localhost:8000/chat" \
   -H "Content-Type: application/json" \
   -d '{"query":"床垫有哪些类型","mode":"rag","user_id":"user001"}'
 
-# 统计接口
+
+
+统计接口
+
+
+bash
 curl http://localhost:8000/stats
 
 
