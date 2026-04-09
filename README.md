@@ -39,29 +39,23 @@
 🏗️ 系统架构
 
 
+请求流程：
+
+
 plaintext
-用户请求入口
-      │
-      ▼
-  模式路由层 (RAG / Agent 切换)
-      │
-      ├──────────────┬──────────────┐
-      │              │              │
-      ▼              ▼              │
-  RAG 检索       Agent 智能体       │
-    引擎            智能体          │
-      │              │              │
-      ▼              ▼              │
-  向量数据库      工具调用引擎       │
-  (Milvus)                          │
-      │              │              │
-      └──────────────┴──────────────┤
-                     │              │
-                     ▼              │
-               缓存层 (LRU Cache)   │
-                     │              │
-                     ▼              │
-              LLM 服务 (本地/云端)  │
+用户请求 → 模式路由层(RAG/Agent切换)
+              ↓
+    ┌─────────┴─────────┐
+    ↓                   ↓
+RAG检索引擎         Agent智能体
+    ↓                   ↓
+向量数据库         工具调用引擎
+    ↓                   ↓
+    └─────────┬─────────┘
+              ↓
+        缓存层(LRU Cache)
+              ↓
+       LLM服务(本地/云端)
 
 
 
@@ -70,24 +64,17 @@ plaintext
 
 
 Python 3.9+
-Milvus 2.3+（向量数据库）
+Milvus 2.3+
 8GB+ 内存
 安装步骤
 
 
 bash
-# 克隆项目
 git clone https://github.com/your-username/furniture-ai-assistant.git
 cd furniture-ai-assistant
-
-# 创建虚拟环境
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 安装依赖
 pip install -r requirements.txt
-
-# 启动服务
 python main.py
 
 接口调用示例
@@ -121,7 +108,6 @@ LLM 接入	OpenAI API / 本地模型
 向量数据库	Milvus
 Embedding 模型	M3E-Base
 缓存	内存 LRU Cache
-前端	Streamlit / Gradio
 
 
 📁 项目结构
@@ -133,7 +119,6 @@ Embedding 模型	M3E-Base
 数据/	数据文件
 日志/	日志与分析
 docs/	文档与图片
-docs/images/	截图素材
 main.py	启动入口
 config.py	配置文件
 requirements.txt	依赖清单
@@ -142,10 +127,10 @@ requirements.txt	依赖清单
 🎯 项目亮点
 
 
-双模式架构设计：RAG 与 Agent 灵活切换，覆盖不同场景需求
-性能优化实践：缓存机制减少重复计算，统计接口实时监控
-工具调用能力：Agent 可自主决定调用哪些工具完成任务
-完整的工程实践：日志记录、错误处理、接口设计一应俱全
+双模式架构设计 — RAG 与 Agent 灵活切换，覆盖不同场景需求
+性能优化实践 — 缓存机制减少重复计算，统计接口实时监控
+工具调用能力 — Agent 可自主决定调用哪些工具完成任务
+完整工程实践 — 日志记录、错误处理、接口设计一应俱全
 
 
 <div align="center">
